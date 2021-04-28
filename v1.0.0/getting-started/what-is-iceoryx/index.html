@@ -14660,7 +14660,7 @@ Additionally, the handling of return values and error cases was inspired by upco
 languages like Rust (details can be found
 <a href="../../advanced/how-optional-and-error-values-are-returned-in-iceoryx/">here</a>).</p>
 <p>As different processes are operating on shared data structures, avoiding deadlocks is becoming all the more important.
-iceoryx uses look-free data structures like the multi-producer multi-consumer (MPMC) queue that was written portably
+iceoryx uses lock-free data structures like the multi-producer multi-consumer (MPMC) queue that was written portably
 thanks to modern C++.  </p>
 <p>The tools available for automotive-compliant software development are always one or two releases behind the latest C++
 standard. This fact, combined with our already mentioned constraints, led to a bunch of STL like C++ classes that have
