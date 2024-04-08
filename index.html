@@ -51,92 +51,165 @@
 <table align="center">
 <thead>
 <tr>
-<th><h2>iceoryx</h2></th>
-<th><h2>iceoryx2</h2></th>
+<th style="text-align: center"><h2>iceoryx</h2></th>
+<th style="text-align: center"><h2>iceoryx2</h2></th>
 </tr>
 </thead>
 <tbody>
+
 <tr>
-<td width="50%">
-  <ul>
-    <li>C++</li>
-    <li>True zero-copy</li>
-    <li>Central daemon</li>
-    <li>Multiple messaging patterns
-      <ul>
-        <li>publish-subscribe</li>
-        <li>request-response</li>
-      </ul>
-    </li>
-    <li>Events</li>
-    <li>Wide range of platforms
-      <ul>
-        <li>Linux</li>
-        <li>Windows</li>
-        <li>macOS</li>
-        <li>FreeBSD</li>
-        <li>QNX</li>
-        <li>FreeRTOS</li>
-      </ul>
-    </li>
-    <li>Some language bindings
-      <ul>
-        <li>C</li>
-        <li>Rust (partial)</li>
-      </ul>
-    </li>
-    <li>Host2Host communication via DDS</li>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Written in</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">C++</td>
+<td style="text-align: center">Rust</td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Has true zero-copy data transport</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">yes</td>
+<td style="text-align: center">yes</td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Requires a central daemon</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">yes</td>
+<td style="text-align: center">no</td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Messaging pattern</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>publish-subscribe</li>
+    <li>request-response</li>
   </ul>
 </td>
-<td>
-  <ul>
-    <li>Rust</li>
-    <li>True zero-copy</li>
-    <li>No central daemon</li>
-    <li>Multiple messaging patterns
-      <ul>
-        <li>publish-subscribe</li>
-        <li>request-response</li>
-        <li>pipeline (planned)</li>
-        <li>blackboard (planned)</li>
-      </ul>
-    </li>
-    <li>Events</li>
-    <li>Wide range of platforms
-      <ul>
-        <li>Linux</li>
-        <li>Windows</li>
-        <li>macOS</li>
-        <li>FreeBSD</li>
-        <li>Android (planned)</li>
-        <li>QNX (planned)</li>
-        <li>FreeRTOS (planned)</li>
-        <li>VxWorks (planned)</li>
-      </ul>
-    </li>
-    <li>Wide range of language bindings
-      <ul>
-        <li>C and C++ (planned)</li>
-        <li>Python (planned)</li>
-        <li>C# (planned)</li>
-        <li>and more</li>
-      </ul>
-    </li>
-    <li>Host2Host communication (planned)</li>
-    <li>Gateways to network protocols
-      <ul>
-        <li>DDS (planned)</li>
-        <li>gRPC (planned)</li>
-        <li>Zenoh (planned)</li>
-      </ul>
-    </li>
-    <li>Modular design allows custom extension, e.g. GPUs and Hypervisors</li>
+<td style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>publish-subscribe</li>
+    <li>request-response (planned)</li>
+    <li>pipeline (planned)</li>
+    <li>blackboard (planned)</li>
   </ul>
 </td>
 </tr>
+
 <tr>
-<td><a class="md-button" href="latest">Continue with iceoryx</a></td>
-<td><a class="md-button" href="https://github.com/eclipse-iceoryx/iceoryx2">Continue with iceoryx2</a></td>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Notification mechanisms</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>polling</li>
+    <li>events</li>
+  </ul>
+</td>
+<td style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>polling</li>
+    <li>events</li>
+  </ul>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Platforms</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>Linux</li>
+    <li>Windows</li>
+    <li>macOS</li>
+    <li>FreeBSD</li>
+    <li>QNX (no CI target)</li>
+    <li>FreeRTOS (no CI target)</li>
+  </ul>
+</td>
+<td style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>Linux</li>
+    <li>Windows</li>
+    <li>macOS</li>
+    <li>FreeBSD</li>
+    <li>Android (planned)</li>
+    <li>QNX (planned)</li>
+    <li>FreeRTOS (planned)</li>
+    <li>VxWorks (planned)</li>
+  </ul>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Language bindings</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>C</li>
+    <li>Rust (partial)</li>
+  </ul>
+</td>
+<td style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>C and C++ (planned)</li>
+    <li>Python (planned)</li>
+    <li>C# (planned)</li>
+    <li>and more</li>
+  </ul>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Host-to-Host communication</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">via DDS</td>
+<td style="text-align: center">planed</td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Gateway support</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>DDS gateway (partial)</li>
+    <li>custom gateways</li>
+  </ul>
+</td>
+<td style="text-align: center">
+  <ul style="list-style-type: none;">
+    <li>DDS (planned)</li>
+    <li>gRPC (planned)</li>
+    <li>Zenoh (planned)</li>
+    <li>custom gateways</li>
+  </ul>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Extensibility</h3></td>
+</tr>
+<tr>
+<td width="50%" style="text-align: center">
+hard due to non-modular design
+</td>
+<td style="text-align: center">
+modular design allows custom extension, e.g. GPUs and Hypervisors
+</td>
+</tr>
+
+<tr>
+<td style="text-align: center"><a class="md-button" href="latest">Continue with iceoryx</a></td>
+<td style="text-align: center"><a class="md-button" href="https://github.com/eclipse-iceoryx/iceoryx2">Continue with iceoryx2</a></td>
 </tr>
 </tbody>
 </table>
@@ -155,7 +228,7 @@
 <tr>
 <td><ul><li>True zero-copy shared memory communication</li><li>Message transfers with a latency of less than 1 µs</li><li>Made to handle GBytes/sec data transfers</li></ul></td>
 <td><ul><li>Support of various operating systems, communication patterns and APIs</li><li>Service discovery enables the design of dynamic systems</li><li>Easy to integrate into frameworks like ROS 2 or AUTOSAR Adaptive</li></ul></td>
-<td><ul><li>Developed according to automotive requirements</li><li>Implementation based on static memory and lock-free algorithms</li><li>Huge C++ library with safe STL implementations</li></ul></td>
+<td><ul><li>Developed according to modern safety standards</li><li>Implementation based on static memory and lock-free algorithms</li><li>Huge C++ library with safe STL implementations</li></ul></td>
 </tr>
 </tbody>
 </table>
