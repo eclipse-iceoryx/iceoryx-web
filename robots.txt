@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://iceoryx.io/sitemap.xml
+Sitemap: https://iceoryx.io/sitemap-index.xml

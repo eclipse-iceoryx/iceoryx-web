@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://iceoryx.io/v2.0.3/examples/complexdata/">
+        <link rel="canonical" href="https://iceoryx.io/classic/v2.0.3/examples/complexdata/">
       
       
         
@@ -27433,7 +27433,7 @@
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">🔗</a></h2>
 <p>To implement zero-copy data transfer we use a shared memory approach. This requires that every data structure needs to be entirely
 contained in the shared memory and must not internally use pointers or references. The complete list of restrictions can be found
-<a href="https://iceoryx.io/v2.0.0/getting-started/overview/#restrictions">here</a>. Therefore, most of the STL types cannot be used, but we
+<a href="https://iceoryx.io/classic/v2.0.0/getting-started/overview/#restrictions">here</a>. Therefore, most of the STL types cannot be used, but we
 reimplemented some <a href="https://github.com/eclipse-iceoryx/iceoryx/tree/v2.0.0/iceoryx_hoofs#cxx">constructs</a>. This example shows how
 to send/receive a iox::cxx::vector and how to send/receive a complex data structure containing some of our STL container surrogates.</p>
 <h2 id="expected-output">Expected Output<a class="headerlink" href="#expected-output" title="Permanent link">🔗</a></h2>
