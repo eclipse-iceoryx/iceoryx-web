@@ -1,378 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iceoryx2 — the zero-copy data plane</title>
+  <meta name="description" content="iceoryx2 is the zero-copy data plane for data-intensive systems — move high-volume data efficiently and deterministically, without moving the payload.">
+  <meta name="theme-color" content="#060910">
+  <link rel="canonical" href="https://iceoryx.io/">
 
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <link rel="canonical" href="https://iceoryx.io">
-      <link rel="icon" href="images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
-      <title>Home - iceoryx.io</title>
-      <link rel="stylesheet" href="v2.0.5/assets/stylesheets/main.edf004c2.min.css">
-      <link rel="stylesheet" href="v2.0.5/assets/stylesheets/palette.e6a45f82.min.css">
-      <link rel="stylesheet" href="stylesheets/extra.css">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="iceoryx">
+  <meta property="og:url" content="https://iceoryx.io/">
+  <meta property="og:title" content="iceoryx2 — the zero-copy data plane">
+  <meta property="og:description" content="The zero-copy data plane for data-intensive systems. Move high-volume data efficiently and deterministically — without moving the payload.">
+  <meta property="og:image" content="https://iceoryx.io/assets/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="iceoryx2 — the zero-copy data plane for data-intensive systems">
+  <meta property="og:locale" content="en_US">
 
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-  </head>
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="announce">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="iceoryx2 — the zero-copy data plane">
+  <meta name="twitter:description" content="The zero-copy data plane for data-intensive systems. Move high-volume data efficiently and deterministically — without moving the payload.">
+  <meta name="twitter:image" content="https://iceoryx.io/assets/og-image.jpg">
 
-    </div>
-      <div data-md-component="outdated" hidden>
-        <aside class="md-banner md-banner--warning">
-        </aside>
-      </div>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 
-<header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <div class="md-header__title" data-md-component="header-title" width="100%">
-      <div align="center">
-        <span class="md-ellipsis">
-          Eclipse iceoryx™ is an inter-process-communication middleware that enables virtually limitless data transmissions at constant time
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"iceoryx2","alternateName":"Eclipse iceoryx","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, Windows, macOS, FreeBSD, Android, QNX, VxWorks, ThreadX","description":"iceoryx2 is the zero-copy data plane for data-intensive systems — lock-free, sub-microsecond data exchange within and across processes, written in safe Rust.","url":"https://iceoryx.io/","downloadUrl":"https://github.com/eclipse-iceoryx/iceoryx2","programmingLanguage":["Rust","C","C++","C#","Python"],"license":"https://www.apache.org/licenses/LICENSE-2.0","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"Eclipse iceoryx contributors","url":"https://github.com/eclipse-iceoryx/iceoryx2/graphs/contributors"},"maintainer":{"@type":"Organization","name":"ekxide","url":"https://ekxide.io/"},"isPartOf":{"@type":"Organization","name":"Eclipse Foundation","url":"https://www.eclipse.org/"}}</script>
+
+  <!-- Apply saved theme before paint to avoid a flash -->
+  <script>try{if(localStorage.getItem('theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<link rel="stylesheet" href="/_astro/index.C6s6gj77.css"></head>
+<body>
+  <!-- Atmosphere layers -->
+  <div class="bg-layer" aria-hidden="true">
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow--1"></div>
+    <div class="bg-glow bg-glow--2"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="brand" href="#top" aria-label="iceoryx home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg class="icx-mark" width="31" height="22" aria-hidden="true"><use href="#logo-mark"></use></svg>
+      </span>
+      <span class="brand__word">iceoryx<span class="brand__two">2</span></span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#why">Why</a><a href="#how">How it works</a><a href="#performance">Performance</a><a href="#platforms">Platforms</a>
+    </nav>
+
+    <div class="nav__actions">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false" title="Toggle light / dark theme">
+        <svg width="18" height="18" class="theme-toggle__moon" data-icon="lucide:moon">
+  
+  
+  <symbol id="ai:lucide:moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol><use href="#ai:lucide:moon"></use>
+      
+</svg>
+        <svg width="18" height="18" class="theme-toggle__sun" data-icon="lucide:sun">
+  
+  
+  <symbol id="ai:lucide:sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></symbol><use href="#ai:lucide:sun"></use>
+      
+</svg>
+      </button>
+      <a class="ghost-link" href="https://github.com/eclipse-iceoryx/iceoryx2" target="_blank" rel="noopener" aria-label="iceoryx2 on GitHub">
+        <svg width="18" height="18" data-icon="simple-icons:github">
+  
+  
+  <symbol id="ai:simple-icons:github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12c0 5.303 3.438 9.8 8.205 11.385c.6.113.82-.258.82-.577c0-.285-.01-1.04-.015-2.04c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729c1.205.084 1.838 1.236 1.838 1.236c1.07 1.835 2.809 1.305 3.495.998c.108-.776.417-1.305.76-1.605c-2.665-.3-5.466-1.332-5.466-5.93c0-1.31.465-2.38 1.235-3.22c-.135-.303-.54-1.523.105-3.176c0 0 1.005-.322 3.3 1.23c.96-.267 1.98-.399 3-.405c1.02.006 2.04.138 3 .405c2.28-1.552 3.285-1.23 3.285-1.23c.645 1.653.24 2.873.12 3.176c.765.84 1.23 1.91 1.23 3.22c0 4.61-2.805 5.625-5.475 5.92c.42.36.81 1.096.81 2.22c0 1.606-.015 2.896-.015 3.286c0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol><use href="#ai:simple-icons:github"></use>
+      
+</svg>
+        <span>GitHub</span>
+      </a>
+      <a class="btn btn--sm" href="https://ekxide.github.io/iceoryx2-book/" target="_blank" rel="noopener">
+  
+        <span class="book-ico" aria-hidden="true">
+          <svg width="16" height="16" data-icon="lucide:book">
+  
+  
+  <symbol id="ai:lucide:book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></symbol><use href="#ai:lucide:book"></use>
+      
+</svg>
+          <svg width="16" height="16" data-icon="lucide:book-open">
+  
+  
+  <symbol id="ai:lucide:book-open" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v14m-9-3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4a4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3a3 3 0 0 0-3-3z"/></symbol><use href="#ai:lucide:book-open"></use>
+      
+</svg>
         </span>
-      </div>
+        Read the book
+      
+  
+</a>
     </div>
-  </nav>
+  </div>
 </header>
 
-    <div class="md-container" data-md-component="container">
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid" width="100%">
-          <div class="md-content" data-md-component="content"  align="center">
-            <article class="md-content__inner md-typeset" style="max-width: 1000px">
-
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/8661268/114321508-64a6b000-9b1b-11eb-95ef-b84c91387cff.png" width="50%">
-
-
-<p style="font-weight: normal">The iceoryx maintainers <span style="font-weight: 900">strongly recommend using iceoryx2</span> for new projects and porting existing ones to iceoryx2. It is the team’s main focus and has already surpassed iceoryx classic in robustness and features.</p>
-
-<table align="center">
-<thead>
-<tr>
-<th style="text-align: center"><h2>iceoryx classic</h2></th>
-<th style="text-align: center"><h2>iceoryx2</h2></th>
-</tr>
-</thead>
-<tbody>
-
-
-<tr>
-<td style="text-align: center"><a class="md-button" href="latest">Continue with iceoryx classic</a></td>
-<td style="text-align: center"><a class="md-button" href="https://ekxide.github.io/iceoryx2-book/">Continue with iceoryx2</a></td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Written in</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">C++</td>
-<td style="text-align: center">Rust</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Has true zero-copy data transport</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">yes</td>
-<td style="text-align: center">yes</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Requires a central daemon</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">yes</td>
-<td style="text-align: center">no</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Messaging pattern</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>publish-subscribe</li>
-    <li>request-response</li>
-  </ul>
-</td>
-<td style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>publish-subscribe</li>
-    <li>request-response</li>
-    <li>blackboard</li>
-    <li>pipeline (planned)</li>
-  </ul>
-</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Notification mechanisms</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>polling</li>
-    <li>events</li>
-  </ul>
-</td>
-<td style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>polling</li>
-    <li>events</li>
-  </ul>
-</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Platforms</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>Linux</li>
-    <li>Windows</li>
-    <li>macOS</li>
-    <li>FreeBSD</li>
-    <li>QNX (no CI target)</li>
-    <li>FreeRTOS (no CI target)</li>
-  </ul>
-</td>
-<td style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>Linux</li>
-    <li>Windows</li>
-    <li>macOS</li>
-    <li>FreeBSD</li>
-    <li>QNX (no CI target)</li>
-    <li>VxWorks (POC)</li>
-    <li>Android (POC)</li>
-    <li>FreeRTOS (planned)</li>
-    <li>ThreadX (planned)</li>
-    <li><a href="https://github.com/eclipse-iceoryx/iceoryx2?tab=readme-ov-file#supported-platforms">and more</a></li>
-  </ul>
-</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Language bindings</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>C</li>
-    <li>Rust (partial)</li>
-  </ul>
-</td>
-<td style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>C and C++</li>
-    <li>C#</li>
-    <li>Python</li>
-    <li>Go (planned)</li>
-    <li><a href="https://github.com/eclipse-iceoryx/iceoryx2?tab=readme-ov-file#language-bindings">and more</a></li>
-  </ul>
-</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Host-to-Host communication</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">via DDS tunnel</td>
-<td style="text-align: center">via Zenoh tunnel</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Gateway support</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>DDS gateway (partial)</li>
-    <li>custom gateways</li>
-  </ul>
-</td>
-<td style="text-align: center">
-  <ul style="list-style-type: none;">
-    <li>Zenoh (first iterations as tunnel)</li>
-    <li>DDS (planned)</li>
-    <li>gRPC (planned)</li>
-    <li>custom gateways</li>
-  </ul>
-</td>
-</tr>
-
-<tr>
-<td colspan="2" style="text-align: center"><h3 style="font-weight: bold">Extensibility</h3></td>
-</tr>
-<tr>
-<td width="50%" style="text-align: center">
-hard due to non-modular design
-</td>
-<td style="text-align: center">
-modular design allows custom extension, e.g. GPUs and Hypervisors
-</td>
-</tr>
-</tbody>
-</table>
-</p>
-
-
-<table>
-<thead>
-<tr>
-<th><h2><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13.5 2.25 12H7.5l-.6-1.5H2L1.25 9h7.8l-.6-1.5H1.11L.25 6H4a2 2 0 0 1 2-2h12v4h3l3 4v5h-2a3 3 0 0 1-3 3 3 3 0 0 1-3-3h-4a3 3 0 0 1-3 3 3 3 0 0 1-3-3H4v-3.5H3m16 5a1.5 1.5 0 0 0 1.5-1.5 1.5 1.5 0 0 0-1.5-1.5 1.5 1.5 0 0 0-1.5 1.5 1.5 1.5 0 0 0 1.5 1.5m1.5-9H18V12h4.46L20.5 9.5M9 18.5a1.5 1.5 0 0 0 1.5-1.5A1.5 1.5 0 0 0 9 15.5 1.5 1.5 0 0 0 7.5 17 1.5 1.5 0 0 0 9 18.5z"/></svg></span> Fast</h2></th>
-<th><h2><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5A2.5 2.5 0 0 0 10.5 1 2.5 2.5 0 0 0 8 3.5V5H4a2 2 0 0 0-2 2v3.8h1.5c1.5 0 2.7 1.2 2.7 2.7 0 1.5-1.2 2.7-2.7 2.7H2V20a2 2 0 0 0 2 2h3.8v-1.5c0-1.5 1.2-2.7 2.7-2.7 1.5 0 2.7 1.2 2.7 2.7V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5z"/></svg></span> Flexible</h2></th>
-<th><h2><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4v6m-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12V21z"/></svg></span> Dependable</h2></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><ul><li>True zero-copy shared memory communication</li><li>Message transfers with a latency of less than 1 µs</li><li>Made to handle GBytes/sec data transfers</li></ul></td>
-<td><ul><li>Support of various operating systems, communication patterns and APIs</li><li>Service discovery enables the design of dynamic systems</li><li>Easy to integrate into frameworks like ROS 2 or AUTOSAR Adaptive</li></ul></td>
-<td><ul><li>Developed according to modern safety standards</li><li>Implementation based on static memory and lock-free algorithms</li><li>Huge C++ library with safe STL implementations</li></ul></td>
-</tr>
-</tbody>
-</table>
-
-
-<table align="center">
-<thead>
-<tr>
-<th colspan="2"><h2>Commercial support</h2></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center" valign="top" width="33%">
-  <a href="https://ekxide.io">
-    <img src="./images/ekxide-white-on-black-rounded.png" alt="ekxide IO GmbH">
-  </a><br />
-  <a href="mailto:info@ekxide.io">info@ekxide.io</a>
-</td>
-<td>
-  <ul>
-    <li>commercial extensions and tooling</li>
-    <li>custom feature development</li>
-    <li>training and consulting</li>
-    <li>integration support</li>
-    <li>engineering services around the iceoryx ecosystem</li>
-  </ul>
-</td>
-</tr>
-</tbody>
-</table>
-
-            </article>
-          </div>
-        </div>
-
-      </main>
-
-        <footer class="md-footer">
-    <div class="md-footer-meta md-typeset">
-        <div class="md-footer-meta__inner md-grid">
-            <div class="md-copyright">
-                Made with
-                <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-                    Material for MkDocs
-                </a>
-            </div>
-        </div>
-        <div class="md-footer-meta__inner md-grid">
-            <div class="md-copyright">
-                Copyright © 2024 Eclipse Foundation<br>
-                <a href="https://www.eclipse.org/legal/privacy.php" target="_blank">Privacy policy</a><br>
-                <a href="https://www.eclipse.org/legal/termsofuse.php" target="_blank">Terms of use</a><br>
-                <a href="https://www.eclipse.org/legal/copyright.php" target="_blank">Copyright</a><br>
-                <a href="https://www.eclipse.org/legal/" target="_blank">Legal</a><br>
-                <a href="https://www.eclipse.org/security/" target="_blank">Report a safety or security
-                    vulnerability</a>
-            </div>
-        </div>
-        <div class="md-footer-meta__inner md-grid">
-            <div class="md-copyright">
-                Sponsored by<br>
-                <a href="https://www.eclipse.org/" target="_blank" rel="noopener" title="Eclipse"><img
-                        src="./images/eclipse-logo.svg" width="100px" style="margin-top: 0.5rem"></img></a><br>
-                <a href="https://www.bosch.com/" target="_blank" rel="noopener" title="Robert Bosch GmbH"><img
-                        src="./images/bosch-logo.png" width="100px" style="margin-top: 0.5rem"></img></a><br>
-                <a href="https://www.apex.ai/" target="_blank" rel="noopener" title="Apex.AI Inc."><img
-                        src="./images/apex-logo.webp" width="100px" style="margin-top: 0.5rem"></img></a><br>
-                <a href="https://www.ekxide.io/" target="_blank" rel="noopener" title="ekxide IO GmbH"><img
-                        src="./images/ekxide-logo.svg" width="100px" style="margin-top: 0.5rem"></img></a><br>
-            </div>
-        </div>
-        <div class="md-footer-meta__inner md-grid">
-            <div class="md-social" style="width: 100%; padding-top: 40px">
-                <a href="https://github.com/eclipse-iceoryx/iceoryx" target="_blank" rel="noopener" title="GitHub iceoryx" class="md-social__link" style="width: 100%; display: inline;">
-                    <div style="display: table; padding: 10px 0">
-                    <div align="center" style="float: left; width: 24px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="max-height: none;"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
-                    </div>
-                    <div align="center" style="float: left; padding-left: 0.5em;">
-                    iceoryx
-                    </div>
-                    <div>
-                </a><br />
-                <a href="https://github.com/eclipse-iceoryx/iceoryx2" target="_blank" rel="noopener" title="GitHub iceoryx2" class="md-social__link" style="width: 100%; display: inline;">
-                    <div style="display: table; padding: 10px 0">
-                    <div align="center" style="float: left; width: 24px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="max-height: none;"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
-                    </div>
-                    <div align="center" style="float: left; padding-left: 0.5em;">
-                    iceoryx2
-                    </div>
-                    <div>
-                </a><br />
-                <a href="https://gitter.im/eclipse/iceoryx" target="_blank" rel="noopener" title="Gitter.im Chat" class="md-social__link" style="width: 100%; display: inline;">
-                    <div style="display: table; padding: 10px 0">
-                    <div align="center" style="float: left; width: 24px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="max-height: none;"><path d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8z"/></svg>
-                    </div>
-                    <div align="center" style="float: left; padding-left: 0.5em;">
-                    Developer Chat
-                    </div>
-                    <div>
-                </a><br />
-                <a href="https://github.com/eclipse-iceoryx/iceoryx/blob/master/GOVERNANCE.md#bi-weekly-meetup" target="_blank" rel="noopener" title="Developer Meetup" class="md-social__link" style="width: 100%; display: inline;">
-                    <div style="display: table; padding: 10px 0">
-                    <div align="center" style="float: left; width: 24px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="max-height: none;"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5z"/></svg>
-                    </div>
-                    <div align="center" style="float: left; padding-left: 0.5em;">
-                    Developer Meetup
-                    </div>
-                    <div>
-                </a>
-                <a href="https://accounts.eclipse.org/mailing-list/iceoryx-dev" target="_blank" rel="noopener" title="Mailing List" class="md-social__link" style="width: 100%; display: inline;">
-                    <div style="display: table; padding: 10px 0">
-                    <div align="center" style="float: left; width: 24px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="max-height: none;"><path d="M22 6V4l-8 5-8-5v2l8 5 8-5m0-4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2h16M2 6v14h18v2H2a2 2 0 0 1-2-2V6h2z"/></svg>
-                    </div>
-                    <div align="center" style="float: left; padding-left: 0.5em;">
-                    Mailing List
-                    </div>
-                    <div>
-                </a><br />
-            </div>
-        </div>
+  <main id="main">
+    <span id="top"></span>
+    
+  <section class="hero" id="hero">
+  <div class="hero__copy reveal">
+    <p class="eyebrow"><span class="eyebrow__dot"></span> Eclipse iceoryx&trade;</p>
+    <h1 class="hero__title">
+      iceoryx<span class="hero__two">2</span>, the&nbsp;<span class="grad">zero&#8209;copy data&nbsp;plane</span>
+    </h1>
+    <p class="hero__sub">
+      Move high-volume data <strong>efficiently and deterministically</strong>
+      inside data-intensive systems.
+    </p>
+    <p class="hero__punch">Without moving the payload.</p>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="https://ekxide.github.io/iceoryx2-book/" target="_blank" rel="noopener">
+  Read the book
+  
+</a>
+      <a class="btn btn--ghost" href="https://github.com/eclipse-iceoryx/iceoryx2" target="_blank" rel="noopener">
+  Get started on GitHub
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M5 12h12.2l-4.6-4.6L14 6l7 7-7 7-1.4-1.4 4.6-4.6H5z"></path></svg>
+</a>
     </div>
+    <p class="hero__trust">
+    <span>Open source</span><i></i><span>Eclipse Foundation</span><i></i><span>Apache&nbsp;2.0</span><i></i><span>MIT</span>
+    </p>
+  </div>
+
+  <div class="backbone-radial reveal hero__viz" role="img" aria-label="iceoryx at the centre of a system: sensors feed data in, compute exchanges it, and actuators receive it — all through the iceoryx hub.">
+  <span class="backbone-radial__spoke backbone-radial__spoke--inout" style="--a:-90deg; --sd:0.00s">
+      <i></i>
+    </span><span class="backbone-radial__spoke backbone-radial__spoke--inout" style="--a:-30deg; --sd:0.30s">
+      <i></i>
+    </span><span class="backbone-radial__spoke backbone-radial__spoke--inout" style="--a:30deg; --sd:0.60s">
+      <i></i>
+    </span><span class="backbone-radial__spoke backbone-radial__spoke--out" style="--a:90deg; --sd:0.90s">
+      <i></i>
+    </span><span class="backbone-radial__spoke backbone-radial__spoke--in" style="--a:150deg; --sd:1.20s">
+      <i></i>
+    </span><span class="backbone-radial__spoke backbone-radial__spoke--in" style="--a:210deg; --sd:1.50s">
+      <i></i>
+    </span>
+  <span class="backbone-radial__node" style="--a:-90deg">Perception</span><span class="backbone-radial__node" style="--a:-30deg">Planning</span><span class="backbone-radial__node" style="--a:30deg">Control</span><span class="backbone-radial__node" style="--a:90deg">Actuators</span><span class="backbone-radial__node" style="--a:150deg">LiDAR</span><span class="backbone-radial__node" style="--a:210deg">Camera</span>
+  <div class="backbone-radial__core">
+    <span class="backbone-radial__mark" aria-hidden="true"><svg class="icx-mark" width="48" height="34" aria-hidden="true"><use href="#logo-mark"></use></svg></span>
+    <span class="backbone-radial__name">iceoryx<span class="backbone-radial__two">2</span></span>
+    <span class="backbone-radial__sub">zero-copy<br>data plane</span>
+  </div>
+</div>
+</section>
+  <section class="section" id="why">
+  <header class="section__head reveal">
+    <p class="eyebrow">Why iceoryx2?</p>
+    <h2 class="section__title">For when moving data is the bottleneck.</h2>
+    <p class="section__lead">
+      In physical AI and other mission-critical systems,
+      how data moves often becomes the deciding factor — long before the
+      workload itself reaches its limit.
+    </p>
+  </header>
+
+  <div class="pipeline-load reveal" role="img" aria-label="A pipeline of sensor-stream driver processes feeding an inference stage, with CPU and latency gauges reading high — illustrating how traditional data movement drives up CPU usage and latency.">
+  <div class="pipeline-load__view">
+    <div class="pipeline-load__fit">
+    <div class="pipeline-load__pipeline" data-fit-width aria-hidden="true">
+      
+          <span class="pipeline-load__source" style="grid-row:1"></span>
+          <div class="pipeline-load__node" style="grid-row:1">Camera</div>
+          <span class="pipeline-load__line" style="grid-row:1; --d:0.00s"><i></i></span>
+        
+          <span class="pipeline-load__source" style="grid-row:2"></span>
+          <div class="pipeline-load__node" style="grid-row:2">LiDAR</div>
+          <span class="pipeline-load__line" style="grid-row:2; --d:0.35s"><i></i></span>
+        
+          <span class="pipeline-load__source" style="grid-row:3"></span>
+          <div class="pipeline-load__node" style="grid-row:3">IMU</div>
+          <span class="pipeline-load__line" style="grid-row:3; --d:0.70s"><i></i></span>
+        
+          <span class="pipeline-load__source" style="grid-row:4"></span>
+          <div class="pipeline-load__node" style="grid-row:4">Joint Sensors</div>
+          <span class="pipeline-load__line" style="grid-row:4; --d:1.05s"><i></i></span>
+        
+      <div class="pipeline-load__inference">Inference</div>
+      <span class="pipeline-load__line pipeline-load__line--act" aria-hidden="true"><i></i></span>
+      <div class="pipeline-load__actuators">Actuators</div>
+    </div>
+    </div>
+
+    <div class="pipeline-load__metrics">
+      <span class="pipeline-load__metrics-label">Cost of copying data</span>
+      <div class="pipeline-load__gauges" aria-hidden="true">
+        <figure class="gauge">
+            <svg class="gauge__dial" viewBox="0 0 200 120" role="presentation">
+              <path class="gauge__seg gauge__seg--lo" d="M20.00 100.00 A80 80 0 0 1 60.00 30.72"></path>
+              <path class="gauge__seg gauge__seg--mid" d="M60.00 30.72 A80 80 0 0 1 140.00 30.72"></path>
+              <path class="gauge__seg gauge__seg--hi" d="M140.00 30.72 A80 80 0 0 1 180.00 100.00"></path>
+              <line class="gauge__tick" x1="33.00" y1="100.00" x2="23.00" y2="100.00"></line><line class="gauge__tick" x1="45.80" y1="60.62" x2="37.71" y2="54.74"></line><line class="gauge__tick" x1="79.30" y1="36.28" x2="76.21" y2="26.77"></line><line class="gauge__tick" x1="120.70" y1="36.28" x2="123.79" y2="26.77"></line><line class="gauge__tick" x1="154.20" y1="60.62" x2="162.29" y2="54.74"></line><line class="gauge__tick" x1="167.00" y1="100.00" x2="177.00" y2="100.00"></line>
+              <polygon class="gauge__needle" points="100,42 96.5,100 103.5,100" style="--needle-deg:68deg"></polygon>
+              <circle class="gauge__hub" cx="100" cy="100" r="5"></circle>
+            </svg>
+            <figcaption class="gauge__cap">
+              <span class="gauge__name">CPU</span>
+            </figcaption>
+          </figure><figure class="gauge">
+            <svg class="gauge__dial" viewBox="0 0 200 120" role="presentation">
+              <path class="gauge__seg gauge__seg--lo" d="M20.00 100.00 A80 80 0 0 1 60.00 30.72"></path>
+              <path class="gauge__seg gauge__seg--mid" d="M60.00 30.72 A80 80 0 0 1 140.00 30.72"></path>
+              <path class="gauge__seg gauge__seg--hi" d="M140.00 30.72 A80 80 0 0 1 180.00 100.00"></path>
+              <line class="gauge__tick" x1="33.00" y1="100.00" x2="23.00" y2="100.00"></line><line class="gauge__tick" x1="45.80" y1="60.62" x2="37.71" y2="54.74"></line><line class="gauge__tick" x1="79.30" y1="36.28" x2="76.21" y2="26.77"></line><line class="gauge__tick" x1="120.70" y1="36.28" x2="123.79" y2="26.77"></line><line class="gauge__tick" x1="154.20" y1="60.62" x2="162.29" y2="54.74"></line><line class="gauge__tick" x1="167.00" y1="100.00" x2="177.00" y2="100.00"></line>
+              <polygon class="gauge__needle" points="100,42 96.5,100 103.5,100" style="--needle-deg:61deg"></polygon>
+              <circle class="gauge__hub" cx="100" cy="100" r="5"></circle>
+            </svg>
+            <figcaption class="gauge__cap">
+              <span class="gauge__name">Latency</span>
+            </figcaption>
+          </figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="why-points reveal">
+    <div class="why-point">
+      <h3>Data-intensive by nature</h3>
+      <p>
+        Data streams continuously, at high volume, between components.
+      </p>
+    </div>
+    <div class="why-point">
+      <h3>Movement sets the limits</h3>
+      <p>
+        How that data moves determines latency, CPU usage, and predictability.
+      </p>
+    </div>
+    <div class="why-point">
+      <h3>Copies don&rsquo;t scale</h3>
+      <p>
+        Typical approaches copy and serialize payloads; overhead grows with
+        size and message rate.
+      </p>
+    </div>
+  </div>
+
+</section>
+  <section class="section" id="what">
+  <header class="section__head reveal">
+    <p class="eyebrow">What it is</p>
+    <h2 class="section__title">Built for performance, determinism, and control.</h2>
+    <p class="section__lead">
+      While iceoryx2 has its roots in zero-copy IPC, its role is broader:
+      enabling efficient and predictable high-volume data exchange beyond
+      process boundaries, without sacrificing architectural flexibility
+    </p>
+  </header>
+
+  <div class="cards">
+    <article class="card reveal" style="--i:0">
+  <div class="card__icon" aria-hidden="true"><svg width="24" height="24" slot="icon" data-icon="lucide:gauge">
+  
+  
+  <symbol id="ai:lucide:gauge" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 14l4-4M3.34 19a10 10 0 1 1 17.32 0"/></symbol><use href="#ai:lucide:gauge"></use>
+      
+</svg></div>
+  <h3>Deterministic performance that scales</h3>
+  
+      
+      <p>
+        A true zero-copy data plane delivering deterministic performance,
+        faster reaction times, and more CPU resources for your workload.
+      </p>
+    
+</article>
+
+    <article class="card reveal" style="--i:1">
+  <div class="card__icon" aria-hidden="true"><svg width="24" height="24" slot="icon" data-icon="lucide:shield-check">
+  
+  
+  <symbol id="ai:lucide:shield-check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12l2 2l4-4"/></g></symbol><use href="#ai:lucide:shield-check"></use>
+      
+</svg></div>
+  <h3>Designed for mission-critical systems</h3>
+  
+      
+      <p>
+        A communication foundation engineered for mission-critical systems,
+        with predictable behavior and transparent operation needed for demanding
+        environments.
+      </p>
+    
+</article>
+
+    <article class="card reveal" style="--i:2">
+  <div class="card__icon" aria-hidden="true"><svg width="24" height="24" slot="icon" data-icon="heroicons:puzzle-piece">
+  
+  
+  <symbol id="ai:heroicons:puzzle-piece" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.25 6.087c0-.355.186-.676.401-.959c.221-.29.349-.634.349-1.003c0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003c.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643a48 48 0 0 1-4.163-.3q.28 2.42.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.65 1.65 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349c.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48 48 0 0 1-.642 5.056q2.278.286 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.65 1.65 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875c1.243 0 2.25.84 2.25 1.875c0 .369-.128.713-.349 1.003c-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48 48 0 0 0 5.427-.63a48 48 0 0 0 .582-4.717a.53.53 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401c-.29.221-.634.349-1.003.349c-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349c.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663a48 48 0 0 0-.37-5.36q-2.83.515-5.766.689a.58.58 0 0 1-.61-.58"/></symbol><use href="#ai:heroicons:puzzle-piece"></use>
+      
+</svg></div>
+  <h3>Architectural sovereignty</h3>
+  
+      
+      <p>
+        A lean data plane that fits into your architecture instead of taking 
+        it over — no forced framework, no forced data model, no ecosystem
+        lock-in.
+      </p>
+    
+</article>
+  </div>
+
+</section>
+  <section class="section section--how how--split" id="how">
+  <header class="section__head reveal">
+    <p class="eyebrow">How it works</p>
+    <h2 class="section__title">One write. Many readers. Zero copies.</h2>
+    <p class="section__lead">
+      Typical communication mechanisms move data by copying payloads.
+      iceoryx2 keeps payloads in place and exchanges references instead.
+    </p>
+  </header>
+
+  <div class="how__body">
+    <figure class="zero-copy reveal" aria-label="Animation: one process writes a message into shared memory once, and many processes read it with zero copies.">
+  <div class="zero-copy__frame">
+    <canvas id="zerocopy-canvas"></canvas>
+    <figcaption class="zero-copy__caption">
+      <div class="zero-copy__legend">
+        <span class="zero-copy__cap-item"><i class="zero-copy__dot zero-copy__dot--pub"></i> Producers</span>
+        <span class="zero-copy__cap-item"><i class="zero-copy__dot zero-copy__dot--mem"></i> Payload</span>
+        <span class="zero-copy__cap-item"><i class="zero-copy__dot zero-copy__dot--ref"></i> References</span>
+        <span class="zero-copy__cap-item"><i class="zero-copy__dot zero-copy__dot--sub"></i> Consumers</span>
+      </div>
+    </figcaption>
+  </div>
+</figure>
+
+    <ol class="steps">
+      <li class="step reveal" style="--i:0">
+          <span class="step__num">01</span>
+          <h3>Produce</h3>
+          <p>A producer borrows a slice of shared memory and writes its message directly into it. Once.</p>
+        </li><li class="step reveal" style="--i:1">
+          <span class="step__num">02</span>
+          <h3>Share</h3>
+          <p>iceoryx2 hands every consumer a reference to that exact memory—not a duplicate of it.</p>
+        </li><li class="step reveal" style="--i:2">
+          <span class="step__num">03</span>
+          <h3>Consume</h3>
+          <p>Consumers read in place. Adding consumers means sharing additional references, not payload copies.</p>
+        </li>
+    </ol>
+  </div>
+</section>
+  <section class="section section--perf" id="performance">
+  <header class="section__head reveal">
+    <p class="eyebrow">Performance</p>
+    <h2 class="section__title">Flat latency, independent of payload size.</h2>
+  </header>
+
+  <figure class="benchmark reveal" role="img" aria-label="Benchmark: message latency versus payload size, log–log. iceoryx2 stays flat at about 0.1 microseconds regardless of payload, while message queue and unix domain socket latency climb with payload size into the hundreds of microseconds.">
+  <figcaption class="benchmark__legend">
+    <span class="benchmark__key benchmark__key--iceoryx2">iceoryx2</span>
+    <span class="benchmark__key benchmark__key--mq">message queue</span>
+    <span class="benchmark__key benchmark__key--uds">unix domain socket</span>
+  </figcaption>
+
+  <svg class="benchmark__plot" viewBox="0 0 760 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    
+    <g>
+        <line class="benchmark__grid" x1="60" y1="328.87994639855606" x2="742" y2="328.87994639855606"></line>
+        <text class="benchmark__tick" x="52" y="328.87994639855606" text-anchor="end" dominant-baseline="middle">0.1</text>
+      </g><g>
+        <line class="benchmark__grid" x1="60" y1="255.40917304459882" x2="742" y2="255.40917304459882"></line>
+        <text class="benchmark__tick" x="52" y="255.40917304459882" text-anchor="end" dominant-baseline="middle">1</text>
+      </g><g>
+        <line class="benchmark__grid" x1="60" y1="181.93839969064157" x2="742" y2="181.93839969064157"></line>
+        <text class="benchmark__tick" x="52" y="181.93839969064157" text-anchor="end" dominant-baseline="middle">10</text>
+      </g><g>
+        <line class="benchmark__grid" x1="60" y1="108.4676263366843" x2="742" y2="108.4676263366843"></line>
+        <text class="benchmark__tick" x="52" y="108.4676263366843" text-anchor="end" dominant-baseline="middle">100</text>
+      </g><g>
+        <line class="benchmark__grid" x1="60" y1="34.99685298272712" x2="742" y2="34.99685298272712"></line>
+        <text class="benchmark__tick" x="52" y="34.99685298272712" text-anchor="end" dominant-baseline="middle">1000</text>
+      </g>
+    
+    <text class="benchmark__tick" x="60" y="352" text-anchor="middle">0.25</text><text class="benchmark__tick" x="157.42857142857142" y="352" text-anchor="middle">1</text><text class="benchmark__tick" x="254.85714285714283" y="352" text-anchor="middle">4</text><text class="benchmark__tick" x="352.2857142857143" y="352" text-anchor="middle">16</text><text class="benchmark__tick" x="449.71428571428567" y="352" text-anchor="middle">64</text><text class="benchmark__tick" x="547.1428571428571" y="352" text-anchor="middle">256</text><text class="benchmark__tick" x="644.5714285714286" y="352" text-anchor="middle">1024</text><text class="benchmark__tick" x="742" y="352" text-anchor="middle">4096</text>
+    
+    <line class="benchmark__axis-line" x1="60" y1="20" x2="60" y2="336"></line>
+    <line class="benchmark__axis-line" x1="60" y1="336" x2="742" y2="336"></line>
+    
+    <text class="benchmark__axis" transform="rotate(-90 16 178)" x="16" y="178" text-anchor="middle">latency [µs]</text>
+    <text class="benchmark__axis" x="401" y="374" text-anchor="middle">payload [KB]</text>
+    
+    <polyline class="benchmark__line benchmark__line--iceoryx2" points="60.0,328.9 108.7,328.9 157.4,328.9 206.1,328.9 254.9,328.9 303.6,328.9 352.3,328.9 401.0,328.9 449.7,328.9 498.4,328.9 547.1,328.9 595.9,328.9 644.6,328.9 693.3,328.9 742.0,328.9" pathLength="1"></polyline><polyline class="benchmark__line benchmark__line--mq" points="60.0,253.6 108.7,251.9 157.4,248.7 206.1,243.1 254.9,234.3 303.6,221.7 352.3,205.6 401.0,187.0 449.7,166.9 498.4,145.8 547.1,124.2 595.9,102.3 644.6,80.3 693.3,58.3 742.0,36.2" pathLength="1"></polyline><polyline class="benchmark__line benchmark__line--uds" points="60.0,243.3 108.7,242.0 157.4,239.5 206.1,235.1 254.9,227.7 303.6,216.7 352.3,202.1 401.0,184.5 449.7,164.9 498.4,144.1 547.1,122.6 595.9,100.9 644.6,78.9 693.3,56.9 742.0,34.8" pathLength="1"></polyline>
+  </svg>
+</figure>
+  <section class="stats" aria-label="Key figures">
+  <div class="stat reveal" style="--i:0">
+      <span class="stat__num mono">&lt; 1 µs</span>
+      <span class="stat__label">Latency</span>
+    </div><div class="stat reveal" style="--i:1">
+      <span class="stat__num mono">0</span>
+      <span class="stat__label">Copies per message</span>
+    </div><div class="stat reveal" style="--i:2">
+      <span class="stat__num mono">0</span>
+      <span class="stat__label">Background threads</span>
+    </div><div class="stat reveal" style="--i:3">
+      <span class="stat__num mono">&gt;1000x</span>
+      <span class="stat__label">Faster for large payloads</span>
+    </div>
+</section>
+</section>
+  <section class="section section--patterns">
+  <header class="section__head reveal">
+    <p class="eyebrow">One API</p>
+    <h2 class="section__title">Four ways to talk.</h2>
+    <p class="section__lead">
+    Many communication patterns. Data and control flow decoupled, minimizing context switches 
+    and providing full control over execution.
+    </p>
+  </header>
+  <div class="patterns">
+    <article class="pattern reveal" style="--i:0">
+        <h3>Publish–Subscribe</h3>
+        <p>Stream data from many publishers to many subscribers, in real time.</p>
+      </article><article class="pattern reveal" style="--i:1">
+        <h3>Request–Response</h3>
+        <p>Ask a service and get an answer—many clients, many servers, one zero-copy path.</p>
+      </article><article class="pattern reveal" style="--i:2">
+        <h3>Events</h3>
+        <p>Signal across processes instantly—many notifiers, many listeners, no polling.</p>
+      </article><article class="pattern reveal" style="--i:3">
+        <h3>Blackboard</h3>
+        <p>Share key–value state on a common board—readers always see the latest write.</p>
+      </article>
+  </div>
+</section>
+  <section class="section" id="platforms">
+  <header class="section__head reveal">
+    <p class="eyebrow">Any language, any platform</p>
+    <h2 class="section__title">Runs everywhere, from cloud to bare metal.</h2>
+    <p class="section__lead">
+      One codebase, written in safe Rust, with first-class bindings for the languages your teams already use.
+    </p>
+  </header>
+
+  <div class="reveal">
+    <ul class="taglist taglist--accent" aria-label="Language bindings">
+      <li>Rust</li><li>C</li><li>C++</li><li>C#</li><li>Python</li>
+      <li class="more" title="More bindings added on demand" aria-label="and more on demand">&hellip;</li>
+    </ul>
+    <div class="platform-tier">
+      <p class="platform-tier__label">Stable</p>
+      <ul class="taglist" aria-label="Stable platforms">
+        <li>Linux</li><li>Windows</li><li>macOS</li><li>FreeBSD</li><li>QNX</li>
+        <li class="more" title="More platforms in progress" aria-label="and more in progress">&hellip;</li>
+      </ul>
+    </div>
+    <div class="platform-tier">
+      <p class="platform-tier__label platform-tier__label--exp">Experimental</p>
+      <ul class="taglist taglist--exp" aria-label="Experimental platforms">
+        <li>Android</li><li>VxWorks</li><li>ThreadX</li><li>Bare&nbsp;metal</li>
+        <li class="more" title="More platforms in progress" aria-label="and more in progress">&hellip;</li>
+      </ul>
+    </div>
+  </div>
+</section>
+  <section class="project" aria-label="About the iceoryx project">
+  <div class="project__inner reveal">
+    <div class="lineage">
+      <p class="eyebrow">The Eclipse iceoryx&trade; project</p>
+      <p class="lineage__lead">
+        <strong>iceoryx2</strong> is the current, recommended implementation of
+        <strong>Eclipse&nbsp;iceoryx</strong>&mdash;the Rust successor to the
+        original C++ iceoryx&nbsp;classic.
+      </p>
+      <p class="lineage__note">
+        iceoryx&nbsp;classic is now in maintenance and superseded by iceoryx2.
+        Existing users can find its documentation
+        <a href="https://iceoryx.io/classic/" target="_blank" rel="noopener">here</a>.
+      </p>
+    </div>
+
+    <div class="stewardship">
+      <div class="stewardship__logos">
+        <a class="project__cred" href="https://projects.eclipse.org/projects/technology.iceoryx" target="_blank" rel="noopener">
+          <span class="project__label">An Eclipse Foundation project</span>
+          <span class="project__logo">
+            <img class="project__logo-img project__logo-img--eclipse project__logo-img--light" src="/assets/img/eclipse-foundation-light.svg" alt="" width="283" height="91">
+            <img class="project__logo-img project__logo-img--eclipse project__logo-img--dark" src="/assets/img/eclipse-foundation-dark.svg" alt="" width="282" height="91">
+          </span>
+        </a>
+
+        <span class="project__sep" aria-hidden="true"></span>
+
+        <a class="project__cred" href="https://ekxide.io/" target="_blank" rel="noopener">
+          <span class="project__label">Built &amp; maintained by</span>
+          <span class="project__logo">
+            <img class="project__logo-img project__logo-img--light" src="/assets/img/ekxide-light.svg" alt="ekxide" width="73" height="30">
+            <img class="project__logo-img project__logo-img--dark" src="/assets/img/ekxide-dark.svg" alt="ekxide" width="73" height="30">
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+  <section class="get-started" id="start">
+  <div class="get-started__inner reveal">
+    <h2 class="get-started__title">Start moving data the&nbsp;fast&nbsp;way.</h2>
+    <p class="get-started__sub">
+      Free and open source. Pull it into your project and get started in minutes.
+    </p>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="https://ekxide.github.io/iceoryx2-book/" target="_blank" rel="noopener">
+  Read the book
+  
+</a>
+      <a class="btn btn--ghost" href="https://github.com/eclipse-iceoryx/iceoryx2" target="_blank" rel="noopener">
+  Get started on GitHub
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M5 12h12.2l-4.6-4.6L14 6l7 7-7 7-1.4-1.4 4.6-4.6H5z"></path></svg>
+</a>
+    </div>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <a class="brand" href="#top" aria-label="iceoryx home">
+        <span class="brand__mark" aria-hidden="true"><svg class="icx-mark" width="28" height="20" aria-hidden="true"><use href="#logo-mark"></use></svg></span>
+        <span class="brand__word">iceoryx<span class="brand__two">2</span></span>
+      </a>
+      <p class="footer__tag">The zero-copy data plane.</p>
+    </div>
+    <nav class="footer__cols" aria-label="Footer">
+      <div class="footer__col">
+        <h4>Project</h4>
+        <a href="https://github.com/eclipse-iceoryx/iceoryx2" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://crates.io/crates/iceoryx2" target="_blank" rel="noopener">crates.io</a>
+        <a href="https://projects.eclipse.org/projects/technology.iceoryx" target="_blank" rel="noopener">Eclipse project</a>
+      </div>
+      <div class="footer__col">
+        <h4>Learn</h4>
+        <a href="https://ekxide.github.io/iceoryx2-book/" target="_blank" rel="noopener">The book</a>
+        <a href="#how">How it works</a>
+        <a href="#performance">Performance</a>
+      </div>
+      <div class="footer__col">
+        <h4>Community</h4>
+        <a href="https://gitter.im/eclipse/iceoryx" target="_blank" rel="noopener">Developer chat</a>
+        <a href="https://github.com/eclipse-iceoryx/iceoryx2/wiki/Developer-Meetup" target="_blank" rel="noopener">Developer meetup</a>
+        <a href="https://accounts.eclipse.org/mailing-list/iceoryx-dev" target="_blank" rel="noopener">Mailing list</a>
+        <a href="https://github.com/eclipse-iceoryx/iceoryx2/discussions" target="_blank" rel="noopener">Discussions</a>
+      </div>
+      <div class="footer__col">
+        <h4>Support</h4>
+        <a href="https://ekxide.io/" target="_blank" rel="noopener">ekxide</a>
+      </div>
+    </nav>
+  </div>
+  <div class="footer__base">
+    <p>
+      Eclipse iceoryx&trade; is a trademark of the Eclipse Foundation.
+      Licensed under Apache&nbsp;2.0 and MIT.
+    </p>
+    <nav class="footer__legal" aria-label="Legal">
+      <a href="https://www.eclipse.org/legal/privacy.php" target="_blank" rel="noopener">Privacy policy</a>
+      <a href="https://www.eclipse.org/legal/termsofuse.php" target="_blank" rel="noopener">Terms of use</a>
+      <a href="https://www.eclipse.org/legal/copyright.php" target="_blank" rel="noopener">Copyright</a>
+      <a href="https://www.eclipse.org/legal/" target="_blank" rel="noopener">Legal</a>
+      <a href="https://www.eclipse.org/security/" target="_blank" rel="noopener">Report a vulnerability</a>
+    </nav>
+    <p class="footer__made">&copy; 2026 Eclipse Foundation</p>
+  </div>
 </footer>
+  <svg width="0" height="0" class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="logo-mark" viewBox="48 41.8 106.5 76.2">
+      <path fill="rgb(34.461975%, 53.669739%, 70.76416%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 848.671875 1037.96875 L 769.335938 1174.023438 L 749.492188 974.179688 Z M 848.671875 1037.96875 "></path>
+      <path fill="rgb(34.461975%, 53.669739%, 70.76416%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 756.5625 1189.609375 L 718.515625 1258.398438 L 681.679688 1218.710938 Z M 756.5625 1189.609375 "></path>
+      <path fill="rgb(69.995117%, 90.130615%, 93.684387%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 1444.53125 1230.859375 L 1303.828125 1216.25 L 1105.859375 1070.9375 Z M 1444.53125 1230.859375 "></path>
+      <path fill="rgb(69.995117%, 90.130615%, 93.684387%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 730.078125 998.125 L 737.1875 1067.539062 L 521.015625 862.539062 Z M 730.078125 998.125 "></path>
+      <path fill="rgb(34.461975%, 53.669739%, 70.76416%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 1445.703125 1211.640625 L 1384.570312 1180.15625 L 1362.65625 1044.101562 Z M 1445.703125 1211.640625 "></path>
+      <path fill="rgb(69.995117%, 90.130615%, 93.684387%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" d="M 86.429688 94.785156 C 86.75 94.785156 101.570312 67.914062 101.570312 67.914062 L 73.390625 73.148438 L 86.429688 94.785156 "></path>
+      <path fill="none" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 864.296875 1052.148438 C 867.5 1052.148438 1015.703125 1320.859375 1015.703125 1320.859375 L 733.90625 1268.515625 Z M 864.296875 1052.148438 "></path>
+      <path fill="rgb(69.995117%, 90.130615%, 93.684387%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 1267.734375 1252.304688 L 1315.898438 1531.015625 L 1035 1325.9375 Z M 1267.734375 1252.304688 "></path>
+      <path fill="rgb(34.461975%, 53.669739%, 70.76416%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" d="M 92.820312 87.738281 L 106.863281 92.855469 L 128.308594 77.566406 L 102.914062 69.160156 L 92.820312 87.738281 "></path>
+      <path fill="none" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 928.203125 1122.617188 L 1068.632812 1071.445312 L 1283.085938 1224.335938 L 1029.140625 1308.398438 Z M 928.203125 1122.617188 "></path>
+      <path fill="rgb(34.461975%, 53.669739%, 70.76416%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" d="M 131.261719 57.824219 L 150.371094 56.046875 L 150.371094 53.316406 L 132.828125 46.078125 L 131.261719 57.824219 "></path>
+      <path fill="none" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 1312.617188 1421.757812 L 1503.710938 1439.53125 L 1503.710938 1466.835938 L 1328.28125 1539.21875 Z M 1312.617188 1421.757812 "></path>
+      <path fill="rgb(69.995117%, 90.130615%, 93.684387%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 1314.53125 1406.40625 L 1365.234375 1410.273438 L 1285.273438 1244.53125 Z M 1314.53125 1406.40625 "></path>
+      <path fill="rgb(34.461975%, 53.669739%, 70.76416%)" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="matrix(0.1, 0, 0, -0.1, 0, 200)" d="M 1297.96875 1539.023438 L 851.40625 1539.0625 L 1243.398438 1500.039062 Z M 1297.96875 1539.023438 "></path>
+    </symbol>
+  </defs>
+</svg>
 
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.indexes"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "v2.0.5/assets/javascripts/workers/search.0bbba5b5.min.js", "version": {"provider": "mike"}}</script>
-
-
-      <script src="v2.0.5/assets/javascripts/bundle.e1a181d9.min.js"></script>
-
-
-  </body>
+  <script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.J_ercxOo.js"></script>
+</body>
 </html>
